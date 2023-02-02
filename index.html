@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V16</title>
+	<title>Admin Portal</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link rel="icon" type="image/png" href="images/icons/Black.png"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
@@ -33,8 +33,9 @@
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 			<div class="wrap-login100 p-t-30 p-b-50">
 				<span class="login100-form-title p-b-41">
-					Account Login
+					Admin Login Area
 				</span>
+
 				<form class="login100-form validate-form p-b-33 p-t-5">
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter username">
@@ -64,7 +65,10 @@
 		  event.preventDefault();
 		  const username = form.elements.username.value;
 		  const password = form.elements.pass.value;
-		  if (username === "admin" && password === "admin" || username === "ifti" && password === "2213") {
+		  if (username === "admin" && password === "admin" || 
+      		username === "ifti" && password === "2213" ||
+      		username === "whahed" && password === "001") 
+			{
 			alert("Login Successful");
 			setTimeout(function() {
 			  window.location.href = "https://gallerysports.shop";
@@ -74,6 +78,7 @@
 		  }
 		});
 		</script>
+		
 		
 	<div id="dropDownSelect1"></div>
 	
