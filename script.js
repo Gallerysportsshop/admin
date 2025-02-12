@@ -52,54 +52,90 @@ document.addEventListener("DOMContentLoaded", function () {
     const loginBtn = document.getElementById("login-btn");
     const messageBox = document.querySelector(".msg");
     const icon = document.querySelector(".icon");
+    const signupBtn = document.querySelector(".signup a");
+    const forgotPassBtn = document.querySelector(".action a");
 
-    // User credentials and images
+    // Users with images
     const users = {
-        "ifti": { password: "2213", image: "ifti.png" },
+        "ifti": { password: "2213", image: "ifti.jpg" },
         "whahed": { password: "001", image: "whahed.jpg" }
     };
 
-    // Function to update the profile icon
-    function updateProfileIcon() {
-        const username = usernameInput.value.trim();
-        const password = passwordInput.value.trim();
-
-        if (users[username] && users[username].password === password) {
-            // Remove FontAwesome icon and set background image
-            icon.classList.remove("fa", "fa-user");
-            icon.style.backgroundImage = `url(${users[username].image})`;
-            icon.style.backgroundSize = "cover";
-            icon.style.backgroundPosition = "center";
-        } else {
-            // Reset to default icon if password is incorrect or username is wrong
-            icon.classList.add("fa", "fa-user");
-            icon.style.backgroundImage = "none";
-        }
-    }
-
-    // Update the profile icon when username and password fields change
-    usernameInput.addEventListener("input", updateProfileIcon);
-    passwordInput.addEventListener("input", updateProfileIcon);
-
-    // Login button event listener
+    // Handle login button click
     loginBtn.addEventListener("click", function (e) {
         e.preventDefault(); // Prevent form submission
 
         const username = usernameInput.value.trim();
         const password = passwordInput.value.trim();
 
-        if (users[username]) {
-            if (users[username].password === password) {
-                messageBox.textContent = "Login successful!";
-                messageBox.style.color = "green";
-            } else {
-                messageBox.textContent = "Password is incorrect!";
-                messageBox.style.color = "red";
-            }
+        if (users[username] && users[username].password === password) {
+            // Show profile picture
+            icon.classList.remove("fa", "fa-user");
+            icon.style.backgroundImage = `url(${users[username].image})`;
+            icon.style.backgroundSize = "cover";
+            icon.style.backgroundPosition = "center";
+
+            // Show login success message
+            messageBox.textContent = "Login Successful!";
+            messageBox.style.color = "green";
+
+            let count = 3;
+            const countdown = setInterval(() => {
+                messageBox.textContent = `Logging into your dashboard in ${count}...`;
+                count--;
+
+                if (count < 0) {
+                    clearInterval(countdown);
+                    window.location.href = "dashboard.html"; // Redirect to dashboard
+                }
+            }, 1000);
         } else {
-            messageBox.textContent = username && password ? 
-                "Username and password are incorrect!" : "User not found!";
+            // Reset profile picture
+            icon.classList.add("fa", "fa-user");
+            icon.style.backgroundImage = "none";
+
+            // Show error message
+            messageBox.textContent = users[username] ? "Password is incorrect!" : "User not found!";
             messageBox.style.color = "red";
         }
     });
+
+    // Sign-Up Pop-up
+    signupBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        const fullName = prompt("Enter Full Name:");
+        if (!fullName) return;
+
+        const newUsername = prompt("Enter Username:");
+        if (!newUsername) return;
+
+        const newPassword = prompt("Enter Password:");
+        if (!newPassword) return;
+
+        // Send WhatsApp Message
+        sendWhatsAppMessage(`Hi, I am ${fullName}, I want to set my username as ${newUsername} to login to your portal and password as ${newPassword}. Please update me while it is done.`);
+    });
+
+    // Forgot Password Pop-up
+    forgotPassBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        const username = prompt("Enter your username:");
+        if (!username) return;
+
+        const newPassword = prompt("Enter new password:");
+        if (!newPassword) return;
+
+        // Send WhatsApp Message
+        sendWhatsAppMessage(`Hi, I am ${username}, I want to change my password to ${newPassword}. Please update me while it is done.`);
+    });
+
+    // Function to send WhatsApp messages
+    function sendWhatsAppMessage(message) {
+        const phoneNumber = "+8801753557125";
+        const whatsappURL = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+        window.open(whatsappURL, "_blank"); // Open WhatsApp link
+    }
 });
+
+
+
