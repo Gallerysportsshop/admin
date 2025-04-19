@@ -103,17 +103,31 @@ document.addEventListener("DOMContentLoaded", function () {
     // Sign-Up Pop-up
     signupBtn.addEventListener("click", function (e) {
         e.preventDefault();
+        const email = prompt("Enter your email address:");
+        if (!email) return;
+
         const fullName = prompt("Enter Full Name:");
         if (!fullName) return;
 
         const newUsername = prompt("Enter Username:");
         if (!newUsername) return;
 
-        const newPassword = prompt("Enter Password:");
-        if (!newPassword) return;
+        let newPassword = "";
+
+        // Keep prompting until the password is at least 8 characters
+        while (true) {
+            newPassword = prompt("Enter Password (min 8 characters):");
+            if (!newPassword) return; // If user cancels, exit
+            if (newPassword.length >= 8) break;
+            alert("Password must be at least 8 characters long.");
+        }
+         
+        
+        // Continue with signup process
+        console.log("Signup successful!");
 
         // Send WhatsApp Message
-        sendWhatsAppMessage(`Hi, I am ${fullName}, I want to set my username as ${newUsername} to login to your portal and password as ${newPassword}. Please update me while it is done.`);
+        sendWhatsAppMessage(`Hi, I am ${fullName}, ${email} is my email address. I want to set my username as ${newUsername} to login to your portal and password as ${newPassword}. Please update me while it is done.`);
     });
 
     // Forgot Password Pop-up
